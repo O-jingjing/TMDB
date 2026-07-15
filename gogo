@@ -1,0 +1,121 @@
+const API_KEY = "25aa842f76a84a2630250dba34d99553";
+
+const BASE_URL = "https://api.themoviedb.org/3";
+
+let searchResults = [];
+
+
+async function searchMovie(){
+
+    const keyword = document.getElementById("searchInput").value;
+
+    const response = await fetch(
+        `${BASE_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${keyword}`
+    );
+
+    const data = await response.json();
+
+    displayMovies(data.results);
+}
+
+
+
+function displayMovies(movies){
+    searchResults = movies;
+
+    const movieList = document.getElementById("movieList");
+
+    movieList.innerHTML = "";
+
+    movies.forEach(movie => {
+
+        const poster = movie.poster_path
+        ? "https://image.tmdb.org/t/p/w500" + movie.poster_path
+        : "";
+
+
+        movieList.innerHTML += `
+
+        <div class="movie-card">
+
+            <img src="${poster}">
+
+            <div>
+
+                <h3>${movie.title}</h3>
+
+                <p>${movie.release_date}</p>
+
+                <p>${movie.overview}</p>
+
+                <button onclick="addFavorite('${movie.id}')">
+                    찜하기
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+
+function addFavorite(id){
+
+    const movie = searchResults.find(
+        movie => movie.id == id
+    );
+
+
+    let favorites = JSON.parse(
+        localStorage.getItem("favorites")
+    ) || [];
+
+
+    favorites.push(movie);
+
+
+    localStorage.setItem(
+        "favorites",
+        JSON.stringify(favorites)
+    );
+
+
+    loadFavorites();
+
+}
+
+
+
+function loadFavorites(){
+
+    const list = document.getElementById("favoriteList");
+
+    let favorites = JSON.parse(
+        localStorage.getItem("favorites")
+    ) || [];
+
+
+    list.innerHTML="";
+
+
+    favorites.forEach(movie=>{
+
+        list.innerHTML += `
+
+        <div>
+            * ${movie.title}
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+loadFavorites();
