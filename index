@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화 검색 서비스</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>영화 검색</h1>
+
+<div class="search-box">
+    <input id="searchInput" type="text" placeholder="영화 제목 입력">
+    <button onclick="searchMovie()">검색</button>
+</div>
+
+
+<h2>검색 결과</h2>
+
+<div id="movieList"></div>
+
+
+<h2>c찜 목록</h2>
+
+<div id="favoriteList"></div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
